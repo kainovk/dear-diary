@@ -29,8 +29,12 @@ public class User {
 
     private String name;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
     private Set<Note> notes = new HashSet<>();
+
+    public User(String name) {
+        this.name = name;
+    }
 
     public void addNote(Note note) {
         notes.add(note);
@@ -38,10 +42,6 @@ public class User {
 
     public void removeNote(Note note) {
         notes.remove(note);
-    }
-
-    public User(String name) {
-        this.name = name;
     }
 
     public static User toUser(UserDTO userDTO) {

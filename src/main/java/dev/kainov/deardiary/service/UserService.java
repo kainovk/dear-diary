@@ -28,6 +28,20 @@ public class UserService {
         return userRepo.findAll();
     }
 
+    public void updateById(Long id, User user) {
+        User userToUpdate = findById(id);
+        userToUpdate.setName(user.getName());
+        userRepo.save(userToUpdate);
+    }
+
+    public void deleteById(Long id) {
+        if (userRepo.existsById(id)) {
+            userRepo.deleteById(id);
+        } else {
+            throw new IllegalStateException("User does not exist");
+        }
+    }
+
     @Transactional
     public void addNote(Long userId, Note note) {
         User user = findById(userId);

@@ -18,9 +18,9 @@ public class NoteController {
 
     private final NoteService noteService;
 
-    @GetMapping("/{note_id}")
-    public NoteDTO findById(@PathVariable("note_id") Long noteId) {
-        return NoteDTO.toDTO(noteService.findById(noteId));
+    @GetMapping("/{id}")
+    public NoteDTO findById(@PathVariable Long id) {
+        return NoteDTO.toDTO(noteService.findById(id));
     }
 
     @GetMapping
