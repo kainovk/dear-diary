@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -46,6 +47,7 @@ public class UserService {
     @Transactional
     public void addNote(Long userId, Note note) {
         User user = findById(userId);
+        note.setCreateTime(LocalDateTime.now());
         noteService.save(note);
         user.addNote(note);
         note.setUser(user);

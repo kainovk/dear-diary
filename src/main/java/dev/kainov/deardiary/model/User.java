@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,11 +30,17 @@ public class User {
 
     private String name;
 
+    private LocalDate birthday;
+
+    private String status;
+
     @OneToMany(mappedBy = "user", orphanRemoval = true)
     private Set<Note> notes = new HashSet<>();
 
-    public User(String name) {
+    public User(String name, LocalDate birthday, String status) {
         this.name = name;
+        this.birthday = birthday;
+        this.status = status;
     }
 
     public void addNote(Note note) {
@@ -45,6 +52,10 @@ public class User {
     }
 
     public static User toUser(UserDTO userDTO) {
-        return new User(userDTO.getName());
+        return new User(
+                userDTO.getName(),
+                userDTO.getBirthday(),
+                userDTO.getStatus()
+        );
     }
 }
