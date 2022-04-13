@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -56,5 +57,10 @@ public class UserController {
     @PostMapping("/{user_id}")
     public void addNote(@PathVariable("user_id") Long userId, @RequestBody NoteDTO note) {
         userService.addNote(userId, Note.toNote(note));
+    }
+
+    @DeleteMapping("/{user_id}/{note_id}")
+    public void deleteNote(@PathVariable("user_id") Long userId, @PathVariable("note_id") Long noteId ) {
+        userService.deleteNoteById(userId, noteId);
     }
 }

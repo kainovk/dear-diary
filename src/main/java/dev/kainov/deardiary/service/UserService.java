@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -48,5 +49,18 @@ public class UserService {
         noteService.save(note);
         user.addNote(note);
         note.setUser(user);
+    }
+
+    public void deleteNoteById(Long userId, Long noteId) {
+        Note note = noteService.findById(noteId);
+
+        if (!Objects.equals(userId, note.getUser().getId())) {
+            throw new IllegalStateException(
+                    String.format("Note with id=%d does not belong to user with id=%d", noteId, userId)
+            );
+        }
+        User user = findById(userId);
+        user.removeNote(note);
+        noteService.delete(note);
     }
 }

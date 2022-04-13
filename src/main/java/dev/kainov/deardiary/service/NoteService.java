@@ -24,4 +24,8 @@ public class NoteService {
     public List<Note> findAll() {
         return noteRepo.findAll();
     }
+
+    public void delete(Note note) {
+        noteRepo.delete(note);
+    }
 }
