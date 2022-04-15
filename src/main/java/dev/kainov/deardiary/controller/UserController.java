@@ -1,10 +1,10 @@
 package dev.kainov.deardiary.controller;
 
-
 import dev.kainov.deardiary.model.Note;
 import dev.kainov.deardiary.model.User;
-import dev.kainov.deardiary.model.dto.NoteDTO;
+import dev.kainov.deardiary.model.request.NoteRequest;
 import dev.kainov.deardiary.model.dto.UserDTO;
+import dev.kainov.deardiary.model.request.UserRequest;
 import dev.kainov.deardiary.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,8 +27,8 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public void create(@RequestBody UserDTO user) {
-        userService.save(User.toUser(user));
+    public void create(@RequestBody UserRequest userRequest) {
+        userService.save(User.toUser(userRequest));
     }
 
     @GetMapping("/{id}")
@@ -44,8 +44,8 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public void updateById(@PathVariable Long id, @RequestBody UserDTO user) {
-        userService.updateById(id, User.toUser(user));
+    public void updateById(@PathVariable Long id, @RequestBody UserRequest userRequest) {
+        userService.updateById(id, User.toUser(userRequest));
     }
 
     @DeleteMapping("/{id}")
@@ -54,8 +54,8 @@ public class UserController {
     }
 
     @PostMapping("/{user_id}")
-    public void addNote(@PathVariable("user_id") Long userId, @RequestBody NoteDTO note) {
-        userService.addNote(userId, Note.toNote(note));
+    public void addNote(@PathVariable("user_id") Long userId, @RequestBody NoteRequest noteRequest) {
+        userService.addNote(userId, Note.toNote(noteRequest));
     }
 
     @DeleteMapping("/{user_id}/{note_id}")

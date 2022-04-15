@@ -1,6 +1,6 @@
 package dev.kainov.deardiary.model;
 
-import dev.kainov.deardiary.model.dto.NoteDTO;
+import dev.kainov.deardiary.model.request.NoteRequest;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -43,7 +43,7 @@ public class Note {
         this.createTime = createTime;
     }
 
-    public static Note toNote(NoteDTO noteDTO) {
-        return new Note(noteDTO.getText(), noteDTO.getCreateTime());
+    public static Note toNote(NoteRequest noteRequest) {
+        return new Note(noteRequest.getText(), LocalDateTime.now());
     }
 }

@@ -1,6 +1,6 @@
 package dev.kainov.deardiary.model;
 
-import dev.kainov.deardiary.model.dto.UserDTO;
+import dev.kainov.deardiary.model.request.UserRequest;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -51,11 +51,11 @@ public class User {
         notes.remove(note);
     }
 
-    public static User toUser(UserDTO userDTO) {
+    public static User toUser(UserRequest userRequest) {
         return new User(
-                userDTO.getName(),
-                userDTO.getBirthday(),
-                userDTO.getStatus()
+                userRequest.getName(),
+                userRequest.getBirthday(),
+                userRequest.getStatus()
         );
     }
 }
