@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,7 +28,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public void create(@RequestBody UserRequest userRequest) {
+    public void create(@RequestBody @Valid UserRequest userRequest) {
         userService.save(User.toUser(userRequest));
     }
 
@@ -44,7 +45,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public void updateById(@PathVariable Long id, @RequestBody UserRequest userRequest) {
+    public void updateById(@PathVariable Long id, @RequestBody @Valid UserRequest userRequest) {
         userService.updateById(id, User.toUser(userRequest));
     }
 
@@ -54,7 +55,7 @@ public class UserController {
     }
 
     @PostMapping("/{user_id}")
-    public void addNote(@PathVariable("user_id") Long userId, @RequestBody NoteRequest noteRequest) {
+    public void addNote(@PathVariable("user_id") Long userId, @RequestBody @Valid NoteRequest noteRequest) {
         userService.addNote(userId, Note.toNote(noteRequest));
     }
 
