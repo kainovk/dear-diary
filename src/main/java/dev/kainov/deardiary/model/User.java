@@ -30,6 +30,8 @@ public class User {
 
     private String name;
 
+    private String email;
+
     private LocalDate birthday;
 
     private String status;
@@ -37,8 +39,9 @@ public class User {
     @OneToMany(mappedBy = "user", orphanRemoval = true)
     private Set<Note> notes = new HashSet<>();
 
-    public User(String name, LocalDate birthday, String status) {
+    public User(String name, String email, LocalDate birthday, String status) {
         this.name = name;
+        this.email = email;
         this.birthday = birthday;
         this.status = status;
     }
@@ -54,6 +57,7 @@ public class User {
     public static User toUser(UserRequest userRequest) {
         return new User(
                 userRequest.getName(),
+                userRequest.getEmail(),
                 userRequest.getBirthday(),
                 userRequest.getStatus()
         );

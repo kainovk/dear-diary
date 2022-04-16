@@ -14,6 +14,7 @@ public class UserDTO {
 
     private Long id;
     private String name;
+    private String email;
     private LocalDate birthday;
     private String status;
     private Set<NoteDTO> notes;
@@ -22,6 +23,7 @@ public class UserDTO {
         return UserDTO.builder()
                 .id(user.getId())
                 .name(user.getName())
+                .email(user.getEmail())
                 .birthday(user.getBirthday())
                 .status(user.getStatus())
                 .notes(user.getNotes().stream()

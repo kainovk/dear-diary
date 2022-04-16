@@ -12,6 +12,7 @@ public class UserInsideNoteDTO {
 
     private Long id;
     private String name;
+    private String email;
     private LocalDate birthday;
     private String status;
 
@@ -19,6 +20,7 @@ public class UserInsideNoteDTO {
         return UserInsideNoteDTO.builder()
                 .id(user.getId())
                 .name(user.getName())
+                .email(user.getEmail())
                 .birthday(user.getBirthday())
                 .status(user.getStatus())
                 .build();
