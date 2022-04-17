@@ -1,6 +1,7 @@
 package dev.kainov.deardiary.service;
 
 import dev.kainov.deardiary.dao.NoteRepo;
+import dev.kainov.deardiary.exception.ApiRequestException;
 import dev.kainov.deardiary.model.Note;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,9 @@ public class NoteService {
     }
 
     public Note findById(Long id) {
-        return noteRepo.findById(id).orElseThrow(() -> new IllegalStateException("Note not found"));
+        return noteRepo.findById(id).orElseThrow(() ->
+                new ApiRequestException(String.format("Note with id=%d not found", id))
+        );
     }
 
     public List<Note> findAll() {
@@ -26,6 +29,10 @@ public class NoteService {
     }
 
     public void delete(Note note) {
-        noteRepo.delete(note);
+        if (noteRepo.existsById(note.getId())) {
+            noteRepo.delete(note);
+        } else {
+            throw new ApiRequestException(String.format("Note with id=%d not found", note.getId()));
+        }
     }
 }

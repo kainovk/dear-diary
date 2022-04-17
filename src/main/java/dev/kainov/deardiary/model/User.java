@@ -62,4 +62,11 @@ public class User {
                 userRequest.getStatus()
         );
     }
+
+    public void mapAttributes(String name, String email, LocalDate birthday, String status) {
+        this.name = name;
+        this.email = email;
+        this.birthday = birthday;
+        this.status = status;
+    }
 }

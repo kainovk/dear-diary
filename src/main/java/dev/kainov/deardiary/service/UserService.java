@@ -1,12 +1,12 @@
 package dev.kainov.deardiary.service;
 
 import dev.kainov.deardiary.dao.UserRepo;
+import dev.kainov.deardiary.exception.ApiRequestException;
 import dev.kainov.deardiary.model.Note;
 import dev.kainov.deardiary.model.User;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -23,7 +23,9 @@ public class UserService {
     }
 
     public User findById(Long id) {
-        return userRepo.findById(id).orElseThrow(() -> new IllegalStateException("User not found"));
+        return userRepo.findById(id).orElseThrow(() ->
+                new ApiRequestException(String.format("User with id=%d not found", id))
+        );
     }
 
     public List<User> findAll() {
@@ -32,7 +34,12 @@ public class UserService {
 
     public void updateById(Long id, User user) {
         User userToUpdate = findById(id);
-        userToUpdate.setName(user.getName());
+        userToUpdate.mapAttributes(
+                user.getName(),
+                user.getEmail(),
+                user.getBirthday(),
+                user.getStatus()
+        );
         userRepo.save(userToUpdate);
     }
 
@@ -40,24 +47,23 @@ public class UserService {
         if (userRepo.existsById(id)) {
             userRepo.deleteById(id);
         } else {
-            throw new IllegalStateException("User does not exist");
+            throw new ApiRequestException(String.format("User with id=%d not found", id));
         }
     }
 
-    @Transactional
     public void addNote(Long userId, Note note) {
         User user = findById(userId);
         note.setCreateTime(LocalDateTime.now());
-        noteService.save(note);
         user.addNote(note);
         note.setUser(user);
+        noteService.save(note);
     }
 
     public void deleteNoteById(Long userId, Long noteId) {
         Note note = noteService.findById(noteId);
 
         if (!Objects.equals(userId, note.getUser().getId())) {
-            throw new IllegalStateException(
+            throw new ApiRequestException(
                     String.format("Note with id=%d does not belong to user with id=%d", noteId, userId)
             );
         }
