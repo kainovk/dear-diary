@@ -9,14 +9,13 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @EnableWebSecurity
-public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
         http.httpBasic().and().authorizeRequests()
-                .antMatchers("/api/v*/notes").hasRole("ADMIN")
-                .antMatchers("/api/v*/users").permitAll()
+                .antMatchers("/**").permitAll()
                 .and().csrf().disable();
     }
 
