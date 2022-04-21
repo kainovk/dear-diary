@@ -17,7 +17,7 @@ class UserRepoTest {
     private UserRepo underTest;
 
     @Test
-    void existsByEmail() {
+    void existsByEmail_Success() {
         // given
         User user = prepareValidUser();
         underTest.save(user);
@@ -27,6 +27,16 @@ class UserRepoTest {
 
         // then
         assertThat(true).isEqualTo(existsByEmail);
+    }
+
+    @Test
+    void existsByEmail_ShouldReturnFalse() {
+        // when
+        String email = "kirill@gmail.com";
+        Boolean existsByEmail = underTest.existsByEmail(email);
+
+        // then
+        assertThat(false).isEqualTo(existsByEmail);
     }
 
     private User prepareValidUser() {
