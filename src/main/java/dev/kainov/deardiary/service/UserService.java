@@ -19,6 +19,10 @@ public class UserService {
     private final NoteService noteService;
 
     public void save(User user) {
+        Boolean existsByEmail = userRepo.existsByEmail(user.getEmail());
+        if (existsByEmail) {
+            throw new ApiRequestException("Email already taken");
+        }
         userRepo.save(user);
     }
 
