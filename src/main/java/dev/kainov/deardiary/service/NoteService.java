@@ -35,4 +35,8 @@ public class NoteService {
             throw new ApiRequestException(String.format("Note with id=%d not found", note.getId()));
         }
     }
+
+    public void deleteAll() {
+        noteRepo.deleteAll();
+    }
 }
