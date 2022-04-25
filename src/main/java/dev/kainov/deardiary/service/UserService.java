@@ -18,12 +18,12 @@ public class UserService {
     private final UserRepo userRepo;
     private final NoteService noteService;
 
-    public void save(User user) {
+    public User save(User user) {
         Boolean existsByEmail = userRepo.existsByEmail(user.getEmail());
         if (existsByEmail) {
             throw new ApiRequestException("Email already taken");
         }
-        userRepo.save(user);
+        return userRepo.save(user);
     }
 
     public User findById(Long id) {
@@ -36,7 +36,7 @@ public class UserService {
         return userRepo.findAll();
     }
 
-    public void updateById(Long id, User user) {
+    public User updateById(Long id, User user) {
         User userToUpdate = findById(id);
         userToUpdate.mapAttributes(
                 user.getName(),
@@ -44,26 +44,26 @@ public class UserService {
                 user.getBirthday(),
                 user.getStatus()
         );
-        userRepo.save(userToUpdate);
+        return userRepo.save(userToUpdate);
     }
 
-    public void deleteById(Long id) {
-        if (userRepo.existsById(id)) {
-            userRepo.deleteById(id);
-        } else {
+    public Long deleteById(Long id) {
+        if (!userRepo.existsById(id)) {
             throw new ApiRequestException(String.format("User with id=%d not found", id));
         }
+        userRepo.deleteById(id);
+        return id;
     }
 
-    public void addNote(Long userId, Note note) {
+    public Note addNote(Long userId, Note note) {
         User user = findById(userId);
         note.setCreateTime(LocalDateTime.now());
         user.addNote(note);
         note.setUser(user);
-        noteService.save(note);
+        return noteService.save(note);
     }
 
-    public void deleteNoteById(Long userId, Long noteId) {
+    public Long deleteNoteById(Long userId, Long noteId) {
         Note note = noteService.findById(noteId);
 
         if (!Objects.equals(userId, note.getUser().getId())) {
@@ -73,6 +73,10 @@ public class UserService {
         }
         User user = findById(userId);
         user.removeNote(note);
-        noteService.delete(note);
+        return noteService.delete(note);
+    }
+
+    public void deleteAll() {
+        userRepo.deleteAll();
     }
 }

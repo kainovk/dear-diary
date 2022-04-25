@@ -14,8 +14,8 @@ public class NoteService {
 
     private final NoteRepo noteRepo;
 
-    public void save(Note note) {
-        noteRepo.save(note);
+    public Note save(Note note) {
+        return noteRepo.save(note);
     }
 
     public Note findById(Long id) {
@@ -28,12 +28,12 @@ public class NoteService {
         return noteRepo.findAll();
     }
 
-    public void delete(Note note) {
-        if (noteRepo.existsById(note.getId())) {
-            noteRepo.delete(note);
-        } else {
+    public Long delete(Note note) {
+        if (!noteRepo.existsById(note.getId())) {
             throw new ApiRequestException(String.format("Note with id=%d not found", note.getId()));
         }
+        noteRepo.delete(note);
+        return note.getId();
     }
 
     public void deleteAll() {
