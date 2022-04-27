@@ -5,7 +5,6 @@ import dev.kainov.deardiary.exception.ApiRequestException;
 import dev.kainov.deardiary.model.Note;
 import dev.kainov.deardiary.model.User;
 import dev.kainov.deardiary.service.UserService;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -40,11 +39,6 @@ class UserControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
-
-    @AfterEach
-    void tearDown() {
-        userService.deleteAll();
-    }
 
     @Test
     void createUser_Success() throws Exception {
