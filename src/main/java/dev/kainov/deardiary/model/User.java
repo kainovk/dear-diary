@@ -1,6 +1,5 @@
 package dev.kainov.deardiary.model;
 
-import dev.kainov.deardiary.model.request.UserRequest;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -37,7 +35,7 @@ public class User {
     private String status;
 
     @OneToMany(mappedBy = "user", orphanRemoval = true)
-    private Set<Note> notes = new HashSet<>();
+    private Set<Note> notes;
 
     public User(String name, String email, LocalDate birthday, String status) {
         this.name = name;
@@ -52,15 +50,6 @@ public class User {
 
     public void removeNote(Note note) {
         notes.remove(note);
-    }
-
-    public static User toUser(UserRequest userRequest) {
-        return new User(
-                userRequest.getName(),
-                userRequest.getEmail(),
-                userRequest.getBirthday(),
-                userRequest.getStatus()
-        );
     }
 
     public void mapAttributes(String name, String email, LocalDate birthday, String status) {

@@ -1,9 +1,9 @@
 package dev.kainov.deardiary.controller;
 
-import dev.kainov.deardiary.model.Note;
-import dev.kainov.deardiary.model.User;
-import dev.kainov.deardiary.model.request.NoteRequest;
 import dev.kainov.deardiary.model.dto.UserDTO;
+import dev.kainov.deardiary.model.mapper.NoteMapper;
+import dev.kainov.deardiary.model.mapper.UserMapper;
+import dev.kainov.deardiary.model.request.NoteRequest;
 import dev.kainov.deardiary.model.request.UserRequest;
 import dev.kainov.deardiary.service.UserService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
@@ -42,7 +42,7 @@ public class UserController {
             summary = "Создание пользователя",
             description = "Создание нового пользователя. Выполняется валидация UserRequest")
     public void create(@RequestBody @Valid UserRequest userRequest) {
-        userService.save(User.toUser(userRequest));
+        userService.save(UserMapper.INSTANCE.userRequestToUser(userRequest));
     }
 
     @GetMapping("/{id}")
@@ -51,7 +51,7 @@ public class UserController {
             description = "Получение пользователя по id"
     )
     public UserDTO getById(@PathVariable Long id) {
-        return UserDTO.toDTO(userService.findById(id));
+        return UserMapper.INSTANCE.userToUserDTO(userService.findById(id));
     }
 
     @GetMapping
@@ -61,7 +61,7 @@ public class UserController {
     )
     public List<UserDTO> getAll() {
         return userService.findAll().stream()
-                .map(UserDTO::toDTO)
+                .map(UserMapper.INSTANCE::userToUserDTO)
                 .collect(Collectors.toList());
     }
 
@@ -72,7 +72,7 @@ public class UserController {
                     "Выполняется валидация UserRequest"
     )
     public void updateById(@PathVariable Long id, @RequestBody @Valid UserRequest userRequest) {
-        userService.updateById(id, User.toUser(userRequest));
+        userService.updateById(id, UserMapper.INSTANCE.userRequestToUser(userRequest));
     }
 
     @DeleteMapping("/{id}")
@@ -91,7 +91,7 @@ public class UserController {
                     "Выполняется валидация NoteRequest"
     )
     public void addNote(@PathVariable("user_id") Long userId, @RequestBody @Valid NoteRequest noteRequest) {
-        userService.addNote(userId, Note.toNote(noteRequest));
+        userService.addNote(userId, NoteMapper.INSTANCE.noteRequestToNote(noteRequest));
     }
 
     @DeleteMapping("/{user_id}/{note_id}")
