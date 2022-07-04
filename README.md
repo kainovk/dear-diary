@@ -1,7 +1,7 @@
 ## Dear Diary (Personal diary)
 
 ### Полезные ссылки:
-- Коллекция запросов Postman: [тык](https://www.postman.com/science-astronaut-66180740/workspace/fd97ac0d-e58b-4987-b312-e45566c5c0cc)
+- [Коллекция запросов Postman](https://www.postman.com/science-astronaut-66180740/workspace/fd97ac0d-e58b-4987-b312-e45566c5c0cc)
 
 ### Стек:
 Backend:
@@ -24,9 +24,3 @@ Documentation:
 ### Схема данных:
 
 ![schema](resources/schema.jpg)
-
-### Скриншоты:
-
-![](resources/user_created.jpg)
-![](resources/validation.jpg)
-![](resources/two_users_and_one_note_created.jpg)

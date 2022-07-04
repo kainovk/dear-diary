@@ -12,5 +12,5 @@ public class NoteDTO {
     private Long id;
     private String text;
     private LocalDateTime createTime;
-    private UserInsideNoteDTO userInsideNoteDTO;
+    private Long userId;
 }
