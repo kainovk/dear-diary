@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -35,7 +36,7 @@ public class User {
     private String status;
 
     @OneToMany(mappedBy = "user", orphanRemoval = true)
-    private Set<Note> notes;
+    private Set<Note> notes = new HashSet<>();
 
     public User(String name, String email, LocalDate birthday, String status) {
         this.name = name;

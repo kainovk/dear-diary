@@ -14,8 +14,8 @@ public interface NoteMapper {
 
     Note noteRequestToNote(NoteRequest noteRequest);
     @Mapping(
-            target = "userInsideNoteDTO",
-            expression = "java(UserMapper.INSTANCE.userInsideUserDTOToUser(note.getUser()))"
+            target = "userId",
+            expression = "java(note.getUser().getId())"
     )
     NoteDTO noteToNoteDTO(Note note);
 }
